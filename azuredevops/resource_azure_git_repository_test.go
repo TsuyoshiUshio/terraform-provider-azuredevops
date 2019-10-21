@@ -213,7 +213,8 @@ func TestAzureGitRepo_Read_UsesNameIfIdNotSet(t *testing.T) {
 //	(5) resource can no longer be queried by ID
 func TestAccAzureGitRepo_Create(t *testing.T) {
 	projectName := testAccResourcePrefix + acctest.RandStringFromCharSet(10, acctest.CharSetAlphaNum)
-	gitRepoName := testAccResourcePrefix + acctest.RandStringFromCharSet(10, acctest.CharSetAlphaNum)
+	gitRepoNameFirst := testAccResourcePrefix + acctest.RandStringFromCharSet(10, acctest.CharSetAlphaNum)
+	gitRepoNameSecond := testAccResourcePrefix + acctest.RandStringFromCharSet(10, acctest.CharSetAlphaNum)
 	tfRepoNode := "azuredevops_azure_git_repository.gitrepo"
 
 	resource.Test(t, resource.TestCase{
@@ -222,11 +223,25 @@ func TestAccAzureGitRepo_Create(t *testing.T) {
 		CheckDestroy: testAccAzureGitRepoCheckDestroy,
 		Steps: []resource.TestStep{
 			{
-				Config: testAccAzureGitRepoResource(projectName, gitRepoName),
+				Config: testAccAzureGitRepoResource(projectName, gitRepoNameFirst),
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet(tfRepoNode, "project_id"),
-					resource.TestCheckResourceAttr(tfRepoNode, "name", gitRepoName),
-					testAccCheckAzureGitRepoResourceExists(gitRepoName),
+					resource.TestCheckResourceAttr(tfRepoNode, "name", gitRepoNameFirst),
+					testAccCheckAzureGitRepoResourceExists(gitRepoNameFirst),
+					resource.TestCheckResourceAttrSet(tfRepoNode, "is_fork"),
+					resource.TestCheckResourceAttrSet(tfRepoNode, "remote_url"),
+					resource.TestCheckResourceAttrSet(tfRepoNode, "size"),
+					resource.TestCheckResourceAttrSet(tfRepoNode, "ssh_url"),
+					resource.TestCheckResourceAttrSet(tfRepoNode, "url"),
+					resource.TestCheckResourceAttrSet(tfRepoNode, "web_url"),
+				),
+			},
+			{
+				Config: testAccAzureGitRepoResource(projectName, gitRepoNameSecond),
+				Check: resource.ComposeTestCheckFunc(
+					resource.TestCheckResourceAttrSet(tfRepoNode, "project_id"),
+					resource.TestCheckResourceAttr(tfRepoNode, "name", gitRepoNameSecond),
+					testAccCheckAzureGitRepoResourceExists(gitRepoNameSecond),
 					resource.TestCheckResourceAttrSet(tfRepoNode, "is_fork"),
 					resource.TestCheckResourceAttrSet(tfRepoNode, "remote_url"),
 					resource.TestCheckResourceAttrSet(tfRepoNode, "size"),
