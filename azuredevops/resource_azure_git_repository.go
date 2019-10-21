@@ -104,7 +104,7 @@ func resourceAzureGitRepositoryRead(d *schema.ResourceData, m interface{}) error
 
 func resourceAzureGitRepositoryUpdate(d *schema.ResourceData, m interface{}) error {
 	clients := m.(*aggregatedClient)
-	repo, projectID, err := expandAzureGitRepository(d)	
+	repo, projectID, err := expandAzureGitRepository(d)
 	if err != nil {
 		return fmt.Errorf("Error converting terraform data model to AzDO project reference: %+v", err)
 	}
@@ -119,13 +119,13 @@ func resourceAzureGitRepositoryUpdate(d *schema.ResourceData, m interface{}) err
 }
 
 func updateAzureGitRepository(clients *aggregatedClient, repository *git.GitRepository, project *uuid.UUID) (*git.GitRepository, error) {
-	projectID := project.String()	
+	projectID := project.String()
 	return clients.GitReposClient.UpdateRepository(
 		clients.ctx,
-	    git.UpdateRepositoryArgs{
-		  NewRepositoryInfo: repository,
-		  RepositoryId: repository.Id, 
-		  Project: &projectID, 
+		git.UpdateRepositoryArgs{
+			NewRepositoryInfo: repository,
+			RepositoryId:      repository.Id,
+			Project:           &projectID,
 		})
 }
 

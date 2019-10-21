@@ -70,6 +70,28 @@ func TestAzureGitRepo_Create_DoesNotSwallowErrorFromFailedCreateCall(t *testing.
 	require.Regexp(t, ".*CreateAzureGitRepository\\(\\) Failed$", err.Error())
 }
 
+// verifies that the update operation is considered failed if the initial API
+// call fails.
+func TestAzureGitRepo_Update_DoesNotSwallowErrorFromFailedCreateCall(t *testing.T) {
+	ctrl := gomock.NewController(t)
+	defer ctrl.Finish()
+
+	resourceData := schema.TestResourceDataRaw(t, resourceAzureGitRepository().Schema, nil)
+	flattenAzureGitRepository(resourceData, &testAzureGitRepository)
+
+	reposClient := azdosdkmocks.NewMockGitClient(ctrl)
+	clients := &aggregatedClient{GitReposClient: reposClient, ctx: context.Background()}
+
+	reposClient.
+		EXPECT().
+		UpdateRepository(clients.ctx, gomock.Any()).
+		Return(nil, errors.New("UpdateAzureGitRepository() Failed")).
+		Times(1)
+
+	err := resourceAzureGitRepositoryUpdate(resourceData, clients)
+	require.Regexp(t, ".*UpdateAzureGitRepository\\(\\) Failed$", err.Error())
+}
+
 // verifies that a round-trip flatten/expand sequence will not result in data loss of non-computed properties.
 //	Note: there is no need to expand computed properties, so they won't be tested here.
 func TestAzureGitRepo_FlattenExpand_RoundTrip(t *testing.T) {

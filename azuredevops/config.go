@@ -84,7 +84,7 @@ func getAzdoClient(azdoPAT string, organizationURL string) (*aggregatedClient, e
 		GitReposClient:        gitReposClient,
 		OperationsClient:      operationsClient,
 		ServiceEndpointClient: serviceEndpointClient,
-		ctx:                   ctx,
+		ctx: ctx,
 	}
 
 	log.Printf("getAzdoClient(): Created core, build, operations, and serviceendpoint clients successfully!")
