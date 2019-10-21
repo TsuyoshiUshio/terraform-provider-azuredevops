@@ -26,10 +26,10 @@ resource "azuredevops_project" "project" {
 }
 
 // Defines a Git repository hosted in the project
-# resource "azuredevops_git_repo" "repository" {
-#   project_id = azuredevops_project.project.id
-#   name       = "super-cool-repository"
-# }
+resource "azuredevops_azure_git_repository" "repository" {
+  project_id     = azuredevops_project.project.id
+  name           = "main-repo"
+}
 
 // Defines an ARM service connection
 # resource "azuredevops_serviceendpoint" "arm" {
@@ -78,23 +78,23 @@ resource "azuredevops_project" "project" {
 # }
 
 // A build that kicks off an infrastructure provisioning pipeline, using variable groups
-resource "azuredevops_build_definition" "cicd" {
-  project_id            = azuredevops_project.project.id
-  agent_pool_name       = "Hosted Ubuntu 1604"
-  name                  = "CICD Pipeilne"
+# resource "azuredevops_build_definition" "cicd" {
+#   project_id            = azuredevops_project.project.id
+#   agent_pool_name       = "Hosted Ubuntu 1604"
+#   name                  = "CICD Pipeilne"
 
-  # variables_groups = [
-  #   azuredevops_variable_group.group1.id,
-  #   azuredevops_variable_group.group2.id
-  # ]
+#   # variables_groups = [
+#   #   azuredevops_variable_group.group1.id,
+#   #   azuredevops_variable_group.group2.id
+#   # ]
 
-  repository {
-    # repo_type   = azuredevops_git_repo.repository.type
-    # repo_name   = azuredevops_git_repo.repository.name
-    # branch_name = azuredevops_git_repo.repository.default_branch
-    yml_path    = "cicd/azure-pipelines-infra.yml"
-  }
-}
+#   repository {
+#     repo_type   = "GitHub"
+#     repo_name   = azuredevops_azure_git_repository.repository.name
+#     branch_name = azuredevops_azure_git_repository.repository.default_branch
+#     yml_path    = "cicd/azure-pipelines-infra.yml"
+#   }
+# }
 
 
 

@@ -1,16 +1,17 @@
 package azuredevops
 
 import (
-	"github.com/hashicorp/terraform/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 )
 
 // Provider - The top level Azure DevOps Provider definition.
 func Provider() *schema.Provider {
 	p := &schema.Provider{
 		ResourcesMap: map[string]*schema.Resource{
-			"azuredevops_build_definition": resourceBuildDefinition(),
-			"azuredevops_project":          resourceProject(),
-			"azuredevops_serviceendpoint":  resourceServiceEndpoint(),
+			"azuredevops_build_definition":     resourceBuildDefinition(),
+			"azuredevops_project":              resourceProject(),
+			"azuredevops_serviceendpoint":      resourceServiceEndpoint(),
+			"azuredevops_azure_git_repository": resourceAzureGitRepository(),
 		},
 		Schema: map[string]*schema.Schema{
 			"org_service_url": {

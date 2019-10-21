@@ -4,16 +4,17 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"github.com/microsoft/terraform-provider-azuredevops/azdosdkmocks"
 	"github.com/microsoft/terraform-provider-azuredevops/azuredevops/utils/converter"
 	"strconv"
 	"testing"
 
 	"github.com/golang/mock/gomock"
 	"github.com/google/uuid"
-	"github.com/hashicorp/terraform/helper/acctest"
-	"github.com/hashicorp/terraform/helper/resource"
-	"github.com/hashicorp/terraform/helper/schema"
-	"github.com/hashicorp/terraform/terraform"
+	"github.com/hashicorp/terraform-plugin-sdk/helper/acctest"
+	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/terraform"
 	"github.com/microsoft/azure-devops-go-api/azuredevops/build"
 	"github.com/stretchr/testify/require"
 )
@@ -82,7 +83,7 @@ func TestAzureDevOpsBuildDefinition_Create_DoesNotSwallowError(t *testing.T) {
 	resourceData := schema.TestResourceDataRaw(t, resourceBuildDefinition().Schema, nil)
 	flattenBuildDefinition(resourceData, &testBuildDefinition, testProjectID)
 
-	buildClient := NewMockBuildClient(ctrl)
+	buildClient := azdosdkmocks.NewMockBuildClient(ctrl)
 	clients := &aggregatedClient{BuildClient: buildClient, ctx: context.Background()}
 
 	expectedArgs := build.CreateDefinitionArgs{Definition: &testBuildDefinition, Project: &testProjectID}
@@ -104,7 +105,7 @@ func TestAzureDevOpsBuildDefinition_Read_DoesNotSwallowError(t *testing.T) {
 	resourceData := schema.TestResourceDataRaw(t, resourceBuildDefinition().Schema, nil)
 	flattenBuildDefinition(resourceData, &testBuildDefinition, testProjectID)
 
-	buildClient := NewMockBuildClient(ctrl)
+	buildClient := azdosdkmocks.NewMockBuildClient(ctrl)
 	clients := &aggregatedClient{BuildClient: buildClient, ctx: context.Background()}
 
 	expectedArgs := build.GetDefinitionArgs{DefinitionId: testBuildDefinition.Id, Project: &testProjectID}
@@ -126,7 +127,7 @@ func TestAzureDevOpsBuildDefinition_Delete_DoesNotSwallowError(t *testing.T) {
 	resourceData := schema.TestResourceDataRaw(t, resourceBuildDefinition().Schema, nil)
 	flattenBuildDefinition(resourceData, &testBuildDefinition, testProjectID)
 
-	buildClient := NewMockBuildClient(ctrl)
+	buildClient := azdosdkmocks.NewMockBuildClient(ctrl)
 	clients := &aggregatedClient{BuildClient: buildClient, ctx: context.Background()}
 
 	expectedArgs := build.DeleteDefinitionArgs{DefinitionId: testBuildDefinition.Id, Project: &testProjectID}
@@ -148,7 +149,7 @@ func TestAzureDevOpsBuildDefinition_Update_DoesNotSwallowError(t *testing.T) {
 	resourceData := schema.TestResourceDataRaw(t, resourceBuildDefinition().Schema, nil)
 	flattenBuildDefinition(resourceData, &testBuildDefinition, testProjectID)
 
-	buildClient := NewMockBuildClient(ctrl)
+	buildClient := azdosdkmocks.NewMockBuildClient(ctrl)
 	clients := &aggregatedClient{BuildClient: buildClient, ctx: context.Background()}
 
 	expectedArgs := build.UpdateDefinitionArgs{

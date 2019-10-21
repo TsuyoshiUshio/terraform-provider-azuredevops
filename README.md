@@ -1,5 +1,6 @@
 # Terraform Provider for Azure DevOps
 
+[![Gitter](https://badges.gitter.im/terraform-provider-azuredevops/community.svg)](https://gitter.im/terraform-provider-azuredevops/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 [![Build Status](https://dev.azure.com/terraform-azdo/terraform-provider-azuredevops/_apis/build/status/Nightly%20Build?branchName=master)](https://dev.azure.com/terraform-azdo/terraform-provider-azuredevops/_build/latest?definitionId=27&branchName=master)
 [![Go Report Card](https://goreportcard.com/badge/github.com/microsoft/terraform-provider-azuredevops)](https://goreportcard.com/report/github.com/microsoft/terraform-provider-azuredevops)
 
@@ -13,6 +14,14 @@ Checkout our [Project Roadmap](./docs/roadmap.md).
 
 ## Important!
 This repository is a work in progress and is not yet suitable for production workloads. Community contributions are welcome.
+
+## Configuration Values
+
+| Environment Variable | Description | Required? | Example |
+| --- | --- | --- | --- |
+| `AZDO_PERSONAL_ACCESS_TOKEN` | A personal access token that grants access to Azure DevOps APIs within the org specified by `AZDO_ORG_SERVICE_URL` | yes | `d7894a91db7610e39decbe09b2dfd449ed2ed5a` |
+| `AZDO_ORG_SERVICE_URL` | URL of the Azure DevOps org in which resources will be provisioned/managed | yes | `https://dev.azure.com/contoso-org` |
+| `AZDO_PRJ_CREATE_DELAY` | Delay (in seconds) to insert after creation of projects. This was determined to be useful based on observed behavior of the AzDO APIs | no | `10` |
 
 ## Usage Example
 
