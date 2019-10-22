@@ -30,6 +30,20 @@ func TestAzureDevOpsProvider_HasChildResources(t *testing.T) {
 	}
 }
 
+func TestAzureDevOpsProvider_HasChildDataSources(t *testing.T) {
+	expectedDataSources := []string{
+		"azuredevops_group",
+	}
+
+	dataSources := provider.DataSourcesMap
+	require.Equal(t, len(expectedDataSources), len(dataSources), "There are an unexpected number of registered data sources")
+
+	for _, resource := range expectedDataSources {
+		require.Contains(t, dataSources, resource, "An expected data source was not registered")
+		require.NotNil(t, dataSources[resource], "A data source cannot have a nil schema")
+	}
+}
+
 func TestAzureDevOpsProvider_SchemaIsValid(t *testing.T) {
 	type testParams struct {
 		name          string
@@ -70,6 +84,7 @@ func testAccPreCheck(t *testing.T) {
 	requiredEnvVars := []string{
 		"AZDO_ORG_SERVICE_URL",
 		"AZDO_PERSONAL_ACCESS_TOKEN",
+		"AZDO_GITHUB_SERVICE_CONNECTION_PAT",
 	}
 
 	for _, variable := range requiredEnvVars {
