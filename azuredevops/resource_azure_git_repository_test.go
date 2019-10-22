@@ -233,7 +233,7 @@ func TestAzureGitRepo_Read_UsesNameIfIdNotSet(t *testing.T) {
 //	(3) resource can be queried by ID and has expected name
 // 	(4) TF destroy deletes resource
 //	(5) resource can no longer be queried by ID
-func TestAccAzureGitRepo_Create(t *testing.T) {
+func TestAccAzureGitRepo_CreateAndUpdate(t *testing.T) {
 	projectName := testAccResourcePrefix + acctest.RandStringFromCharSet(10, acctest.CharSetAlphaNum)
 	gitRepoNameFirst := testAccResourcePrefix + acctest.RandStringFromCharSet(10, acctest.CharSetAlphaNum)
 	gitRepoNameSecond := testAccResourcePrefix + acctest.RandStringFromCharSet(10, acctest.CharSetAlphaNum)
