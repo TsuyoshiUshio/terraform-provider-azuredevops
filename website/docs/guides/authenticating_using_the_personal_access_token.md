@@ -7,7 +7,8 @@ Azure DevOps provider support personal access token for authenticating to Azure 
 1. Go to your Azure DevOps. Select an organization.
 2. Click the icon next to your icon at the right top corner.
 3. Select "Personal access tokens".
-4. Click "New Token" then create a new personal access token with Full access scope.
+4. Click "New Token" then create a new personal access token with the access required by your template. This will be driven primarily based on which resources you need to provision in Azure DevOps. A token with Full access scope will work but may provide more access than you need.
+
 5. Copy the personal access token.
 
 ## Configure Environment Variables
